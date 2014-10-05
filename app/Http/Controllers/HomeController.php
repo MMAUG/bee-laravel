@@ -25,4 +25,9 @@ class HomeController extends Controller {
 		return view('hello');
 	}
 
+	public function test()
+	{
+		dd(Input::all());
+	}
+
 }

@@ -13,6 +13,13 @@
 
 $router->get('/', 'HomeController@index');
 
-$router->get('/shops', 'ShopController@index');
+$router->post('/test', 'HomeController@test');
+
+/*$router->get('/shops', 'ShopController@index');
 $router->post('/shops', 'ShopController@create');
-$router->put('/shops', 'ShopController@update');
+$router->put('/shops', 'ShopController@update');*/
+
+$router->resource('shop', 'ShopController',
+				 array('only' => array('index', 'store', 'update', 'destroy')));
+
+//$router->post('/shop//foods')
