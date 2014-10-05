@@ -36,7 +36,7 @@ class ShopTransform implements Transformer {
 		foreach ($collection as $model) {
 			$data[] = $this->transform($model);
 		}
-		dd($data);
+
 		return $data;
 	}
 
