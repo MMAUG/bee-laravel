@@ -1,31 +1,19 @@
 <?php namespace App\Repositories;
 
-use App\Moloquent\ShopModel;
+use App\Moloquent\UserModel;
 
-class Shop {
+class User {
 
 	protected $model;
 
-	public function __construct(ShopModel $shop)
+	public function __construct(UserModel $shop)
 	{
 		$this->model = $shop;
-	}
-
-	public function getCategoryList()
-	{
-		$cats = \DB::collection('shops')->distinct('category')->get();
-		sort($cats);
-		return $cats;
 	}
 
 	public function getLists($limit = 20, $offset = null)
 	{
 		return $this->model->take($limit)->skip($offset)->get();
-	}
-
-	public function getNearBy($lat, $long, $dist = 20, $category = null)
-	{
-		//return $this->model->command();
 	}
 
 	public function create($data)
@@ -54,15 +42,10 @@ class Shop {
 
 	protected function save($model, $data)
 	{
-		$model->name = $data['name'];
-		$model->address = $data['address'];
-		$model->loc = [$data['long'], $data['lat']];
-		$model->category = $data['category'];
-
-		if ( isset($data['foods']) )
-		{
-			$model->foods = $data['foods'];
-		}
+		$model->username = $data['username'];
+		$model->birthday = $data['birthday'];
+		$model->email = $data['email'];
+		/*$model->category = $data['category'];*/
 
 		if ($model->save())
 		{
@@ -71,4 +54,5 @@ class Shop {
 
 		return false;
 	}
+
 }

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Input;
 
 class HomeController extends Controller {
 
@@ -27,7 +28,7 @@ class HomeController extends Controller {
 
 	public function test()
 	{
-		dd(\Input::all());
+		dd(Input::all());
 	}
 
 }

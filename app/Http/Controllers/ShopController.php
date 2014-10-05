@@ -17,6 +17,13 @@ class ShopController extends Controller {
 		$this->repo = $shop;
 	}
 
+	public function categories()
+	{
+		$cats = $this->repo->getCategoryList();
+
+		return Response::json($cats);
+	}
+
 	public function index()
 	{
 		$lists = $this->repo->getLists(Input::get('limit', 20), Input::get('offset', null));
@@ -26,7 +33,7 @@ class ShopController extends Controller {
 		return Response::json($tf->transformAll($lists));
 	}
 
-	public function create()
+	public function store()
 	{
 		$data = $this->prepareData();
 		
@@ -38,11 +45,26 @@ class ShopController extends Controller {
 		return Response::json(['success' => false]);
 	}
 
-	public function update()
+	public function update($id)
 	{
-		$lists = $this->repo->getLists(Input::get('limit', 20), Input::get('offset', null));
+		$data = $this->prepareData();
+		
+		if ($shop = $this->repo->update($id, $data)) 
+		{
+			return Response::json(['success' => true, 'id' => $shop->_id]);
+		}
 
-		return Response::json($lists->toArray());
+		return Response::json(['success' => false]);
+	}
+
+	public function destroy($id)
+	{
+		if ($this->repo->remove($id)) 
+		{
+			return Response::json(['success' => true]);
+		}
+
+		return Response::json(['success' => false]);
 	}
 
 	protected function prepareData()
@@ -54,6 +76,11 @@ class ShopController extends Controller {
 		$data['long'] = Input::get('longitude');
 		$data['lat'] = Input::get('latitude');
 		$data['category'] = Input::get('category', Config::get('bfapp.default.category'));
+
+		if (Input::get('foods')) 
+		{
+			$data['foods'] = (array) Input::get('foods');
+		}
 
 		return $data;
 	}

@@ -14,12 +14,12 @@
 $router->get('/', 'HomeController@index');
 
 $router->post('/test', 'HomeController@test');
-
-/*$router->get('/shops', 'ShopController@index');
-$router->post('/shops', 'ShopController@create');
-$router->put('/shops', 'ShopController@update');*/
+$router->get('/user', 'AuthController@all');
+$router->post('/register', 'AuthController@register');
 
 $router->resource('shop', 'ShopController',
 				 array('only' => array('index', 'store', 'update', 'destroy')));
+
+$router->get('categories', 'ShopController@categories');
 
 //$router->post('/shop//foods')

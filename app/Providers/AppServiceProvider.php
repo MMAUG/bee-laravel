@@ -25,7 +25,10 @@ class AppServiceProvider extends ServiceProvider {
 		// in the IoC container. If you wish, you may make additional methods
 		// or service providers to keep the code more focused and granular.
 
-		//
+		\App::missing(function($exception)
+		{
+		    return \Response::json(['error' => true, 'message' => 'Request not found'], 404);
+		});
 	}
 
 }
