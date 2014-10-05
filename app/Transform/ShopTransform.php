@@ -18,6 +18,7 @@ class ShopTransform implements Transformer {
 		return [
 			'id' => $model->_id,
 			'name' => $model->name,
+			'first_char' => $this->getFirstChar($model->name),
 			'address' => $model->address,
 			'latitude' => (float) $model->loc[1],
 			'longitude' => (float) $model->loc[0],
@@ -35,7 +36,7 @@ class ShopTransform implements Transformer {
 		foreach ($collection as $model) {
 			$data[] = $this->transform($model);
 		}
-		
+		dd($data);
 		return $data;
 	}
 
@@ -44,5 +45,15 @@ class ShopTransform implements Transformer {
 		$ran = rand(0, 9);
 
 		return $this->colors[$ran];
+	}
+
+	private function getFirstChar($name)
+	{
+		if ( preg_match('/\p{L}/u', $name, $m) )
+		{
+			return $m[0];
+		}
+
+		return substr($name, 0, 1);
 	}
 }
