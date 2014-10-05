@@ -29,6 +29,11 @@ class AppServiceProvider extends ServiceProvider {
 		{
 		    return \Response::json(['error' => true, 'message' => 'Request not found'], 404);
 		});
+
+		\App::fatal(function($exception)
+		{
+		    return \Response::json(['error' => true, 'message' => $exception->getMessage()], 500);
+		});
 	}
 
 }
