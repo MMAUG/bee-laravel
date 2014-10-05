@@ -23,9 +23,32 @@ class Shop {
 		return $this->model->take($limit)->skip($offset)->get();
 	}
 
-	public function getNearBy($lat, $long, $dist = 20, $category = null)
+	public function getNearBy($lat, $long, $dist = 5, $category = null)
 	{
-		//return $this->model->command();
+		/*$r = $this->model->whereRaw(['loc' => [
+				'$geoWithin' => [
+					'$centerSphere' => [ [(float) $long, (float) $lat], $dist / 6371]
+				]
+			]])->orderBy(['distance' => -1])->get();*/
+
+		/*$r = $this->model->whereRaw(['loc' => [
+				'$nearSphere' => [
+					'$geometry' => [
+						'type' => "Point",
+						[(float) $long, (float) $lat]
+					],
+					'$maxDistance' => (float) $dist / 6371
+				]
+			]
+		])->get();*/
+
+		$r = $this->model->whereRaw(['loc' => [
+				'$nearSphere' => [(float) $long, (float) $lat],
+				'$maxDistance' => (float) $dist / 6371
+			]
+		])->get();
+
+		return $r;
 	}
 
 	public function create($data)
@@ -56,7 +79,7 @@ class Shop {
 	{
 		$model->name = $data['name'];
 		$model->address = $data['address'];
-		$model->loc = [$data['long'], $data['lat']];
+		$model->loc = [(float)$data['long'], (float)$data['lat']];
 		$model->category = $data['category'];
 
 		if ( isset($data['foods']) )

@@ -24,6 +24,17 @@ class ShopController extends Controller {
 		return Response::json($cats);
 	}
 
+	public function nearby()
+	{
+		$lists = $this->repo->getNearBy(
+					Input::get('lat'), Input::get('long'), Input::get('distance', 5)
+				);
+
+		$tf = new ShopTransform();
+
+		return Response::json($tf->transformAll($lists));
+	}
+
 	public function index()
 	{
 		$lists = $this->repo->getLists(Input::get('limit', 20), Input::get('offset', null));

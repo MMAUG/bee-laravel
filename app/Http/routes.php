@@ -22,4 +22,6 @@ $router->resource('shop', 'ShopController',
 
 $router->get('categories', 'ShopController@categories');
 
+$router->get('nearby', 'ShopController@nearby');
+
 //$router->post('/shop//foods')
