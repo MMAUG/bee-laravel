@@ -16,6 +16,16 @@ class User {
 		return $this->model->take($limit)->skip($offset)->get();
 	}
 
+	public function alreadyExists($email)
+	{
+		if ($user = $this->model->where('email', $email)->first())
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 	public function create($data)
 	{	
 		return $this->save($this->model, $data);

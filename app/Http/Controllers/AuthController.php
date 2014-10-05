@@ -31,6 +31,11 @@ class AuthController extends Controller {
 		$data['birthday'] = DateTime::createFromFormat('m/d/Y', Input::get('user_birthday'))->getTimestamp();
 		$data['email'] = Input::get('user_email');
 
+		if ($this->repo->alreadyExists($data['email']))
+		{
+			return Response::json(['success' => true]);
+		}
+
 		if ( $user = $this->repo->create($data) )
 		{
 			return Response::json(['success' => true, 'user_id' => $user->_id]);
