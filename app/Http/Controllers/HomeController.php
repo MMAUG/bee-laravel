@@ -27,7 +27,7 @@ class HomeController extends Controller {
 
 	public function test()
 	{
-		dd(Input::all());
+		dd(\Input::all());
 	}
 
 }
